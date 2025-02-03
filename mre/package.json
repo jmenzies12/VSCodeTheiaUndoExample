@@ -1,0 +1,88 @@
+{
+    "name": "mre",
+    "description": "Please enter a brief description here",
+    "version": "0.0.1",
+    "files": [
+        "out",
+        "src"
+    ],
+    "type": "module",
+    "scripts": {
+        "build": "langium generate && tsc -b tsconfig.json && node esbuild.mjs",
+        "watch": "concurrently -n tsc,esbuild -c blue,yellow \"tsc -b tsconfig.json --watch\" \"node esbuild.mjs --watch\"",
+        "lint": "eslint src --ext ts",
+        "langium:generate": "langium generate",
+        "langium:generate:production": "langium generate --mode=production",
+        "langium:watch": "langium generate --watch",
+        "vscode:prepublish": "npm run build && npm run lint"
+    },
+    "dependencies": {
+        "ag-grid-community": "^33.0.4",
+        "ag-grid-react": "^33.0.4",
+        "langium": "~3.3.0",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+        "vscode-languageclient": "~9.0.1",
+        "vscode-languageserver": "~9.0.1"
+    },
+    "devDependencies": {
+        "@types/node": "^18.0.0",
+        "@types/react": "^19.0.8",
+        "@types/react-dom": "^19.0.3",
+        "@types/vscode": "~1.67.0",
+        "@types/vscode-webview": "^1.57.5",
+        "@typescript-eslint/eslint-plugin": "~7.3.1",
+        "@typescript-eslint/parser": "~7.3.1",
+        "concurrently": "~8.2.1",
+        "esbuild": "~0.20.2",
+        "eslint": "~8.57.0",
+        "langium-cli": "~3.3.0",
+        "typescript": "~5.1.6"
+    },
+    "volta": {
+        "node": "18.19.1",
+        "npm": "10.2.4"
+    },
+    "displayName": "mre",
+    "engines": {
+        "vscode": "^1.96.2"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [
+            {
+                "id": "mre",
+                "aliases": [
+                    "MRE",
+                    "mre"
+                ],
+                "extensions": [
+                    ".mre"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "mre",
+                "scopeName": "source.mre",
+                "path": "syntaxes/mre.tmLanguage.json"
+            }
+        ],
+        "customEditors": [
+            {
+                "viewType": "mre.entryLog",
+                "displayName": "Entry Log",
+                "selector": [
+                    {
+                        "filenamePattern": "*.mre"
+                    }
+                ]
+            }
+        ]
+    },
+    "activationEvents": [],
+    "main": "./out/extension/main.cjs"
+}

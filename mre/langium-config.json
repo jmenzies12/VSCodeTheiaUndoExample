@@ -1,0 +1,12 @@
+{
+    "projectName": "Mre",
+    "languages": [{
+        "id": "mre",
+        "grammar": "src/language/mre.langium",
+        "fileExtensions": [".mre"],
+        "textMate": {
+            "out": "syntaxes/mre.tmLanguage.json"
+        }
+    }],
+    "out": "src/language/generated"
+}
