@@ -2,19 +2,17 @@
     "name": "mre",
     "description": "Please enter a brief description here",
     "version": "0.0.1",
-    "files": [
-        "out",
-        "src"
-    ],
     "type": "module",
     "scripts": {
+        "clean": "rimraf out/",
         "build": "langium generate && tsc -b tsconfig.json && node esbuild.mjs",
         "watch": "concurrently -n tsc,esbuild -c blue,yellow \"tsc -b tsconfig.json --watch\" \"node esbuild.mjs --watch\"",
         "lint": "eslint src --ext ts",
         "langium:generate": "langium generate",
         "langium:generate:production": "langium generate --mode=production",
         "langium:watch": "langium generate --watch",
-        "vscode:prepublish": "npm run build && npm run lint"
+        "vscode:prepublish": "npm run clean && npm run langium:generate && tsc -b tsconfig.json && node esbuild.mjs --minify",
+        "vscode:package": "npm run vscode:prepublish && vsce package --no-dependencies --allow-missing-repository --skip-license"
     },
     "dependencies": {
         "ag-grid-community": "^33.0.4",
@@ -34,6 +32,7 @@
         "@types/vscode-webview": "^1.57.5",
         "@typescript-eslint/eslint-plugin": "~7.3.1",
         "@typescript-eslint/parser": "~7.3.1",
+        "@vscode/vsce": "^3.2.2",
         "concurrently": "~8.2.1",
         "esbuild": "~0.20.2",
         "eslint": "~8.57.0",

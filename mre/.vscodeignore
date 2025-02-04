@@ -1,4 +1,7 @@
-.vscode/**
-.vscode-test/**
-.gitignore
-langium-quickstart.md
+**
+!language-configuration.json
+!langium-config.json
+!package.json
+!out/extension/main.cjs
+!out/language/main.cjs
+!out/table/entry-log-app.mjs
