@@ -2,6 +2,7 @@ import { type Module, inject } from 'langium';
 import { createDefaultModule, createDefaultSharedModule, type DefaultSharedModuleContext, type LangiumServices, type LangiumSharedServices, type PartialLangiumServices } from 'langium/lsp';
 import { MreGeneratedModule, MreGeneratedSharedModule } from './generated/module.js';
 import { MreValidator, registerValidationChecks } from './mre-validator.js';
+import { MreCodeActionProvider } from './mre-code-actions.js';
 
 /**
  * Declaration of custom services - add your own service classes here.
@@ -26,7 +27,10 @@ export type MreServices = LangiumServices & MreAddedServices
 export const MreModule: Module<MreServices, PartialLangiumServices & MreAddedServices> = {
     validation: {
         MreValidator: () => new MreValidator()
-    }
+    },
+	lsp: {
+		CodeActionProvider: (services) => new MreCodeActionProvider(services),
+	},
 };
 
 /**

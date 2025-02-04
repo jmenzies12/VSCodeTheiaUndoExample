@@ -23,7 +23,8 @@
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
         "vscode-languageclient": "~9.0.1",
-        "vscode-languageserver": "~9.0.1"
+        "vscode-languageserver": "~9.0.1",
+        "vscode-languageserver-protocol": "^3.17.5"
     },
     "devDependencies": {
         "@types/node": "^18.0.0",

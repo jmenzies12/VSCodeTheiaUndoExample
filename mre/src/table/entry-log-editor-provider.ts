@@ -1,6 +1,12 @@
 import * as vscode from 'vscode'
 import {
+	CodeActionTriggerKind,
 	LanguageClient,
+	TextDocumentIdentifier,
+	Range,
+	CodeActionContext,
+	CodeAction,
+	TextDocumentEdit
 } from 'vscode-languageclient/node.js'
 import { TableChange } from '../language/main'
 
@@ -13,6 +19,8 @@ export class EntryLogEditorProvider implements vscode.CustomTextEditorProvider {
 			},
 		})
 	}
+
+	private static readonly EDIT_COMMANDS = ['editId', 'editDescription']
 
 	private static readonly viewType = 'mre.entryLog'
 
@@ -41,7 +49,52 @@ export class EntryLogEditorProvider implements vscode.CustomTextEditorProvider {
         webviewPanel.webview.onDidReceiveMessage((message) => {
 			if (message.command === 'modelRequest') {
 				this.updateWebview(document.uri.toString(true))
-			} 
+			} else if (EntryLogEditorProvider.EDIT_COMMANDS.includes(message.command)) {
+				const codeActionParams: { textDocument: TextDocumentIdentifier; range?: Range; context: CodeActionContext } = {
+					textDocument: TextDocumentIdentifier.create(document.uri.toString()),
+					context: {
+						triggerKind: CodeActionTriggerKind.Invoked,
+						only: [message.editData.actionIdentifier],
+						diagnostics: [
+							{
+								message: 'synthetic',
+								range: Range.create(document.positionAt(0), document.positionAt(0)),
+								data: message.editData,
+							},
+						],
+					},
+				}
+				this.client.sendRequest('textDocument/codeAction', codeActionParams).then((res: CodeAction[] | unknown) => {
+					if (res instanceof Array) {
+						res.forEach((codeAction) => {
+							if (!CodeAction.is(codeAction)) {
+								return
+							}
+							if (codeAction.edit) {
+								if (codeAction.edit.documentChanges) {
+									codeAction.edit.documentChanges.forEach((change) => {
+										if (TextDocumentEdit.is(change)) {
+											const uri = vscode.Uri.parse(change.textDocument.uri)
+											const edit = new vscode.WorkspaceEdit()
+											change.edits.forEach((textDocumentEdit) => {
+												const start = new vscode.Position(textDocumentEdit.range.start.line, textDocumentEdit.range.start.character)
+												const end = new vscode.Position(textDocumentEdit.range.end.line, textDocumentEdit.range.end.character)
+												const range = new vscode.Range(start, end)
+												edit.replace(uri, range, textDocumentEdit.newText)
+											})
+											vscode.workspace.applyEdit(edit).then((value) => {
+												if (value) {
+													this.updateWebview(uri.toString(true))
+												}
+											})
+										}
+									})
+								}
+							}
+						})
+					}
+				})
+			}
         })
     }
 
