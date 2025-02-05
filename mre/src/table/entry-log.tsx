@@ -1,12 +1,10 @@
-import {  AllCommunityModule, ModuleRegistry, ColDef, CellEditRequestEvent } from "ag-grid-community";
+import { ColDef, CellEditRequestEvent } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
 import { useEffect, useState } from "react";
 import { WebviewApi } from 'vscode-webview'
-import { themeQuartz, colorSchemeDark } from "ag-grid-community";
 import { Model } from "../language/generated/ast";
-
-// Register all community features
-ModuleRegistry.registerModules([AllCommunityModule]);
+import 'ag-grid-community/styles/ag-grid.css'
+import 'ag-grid-community/styles/ag-theme-quartz.css'
 
 const vscode: WebviewApi<unknown> = acquireVsCodeApi()
 
@@ -87,17 +85,16 @@ export default function EntryTable() {
 		processCellEdit(event, vscode)
 	}
 
-	const myTheme = themeQuartz.withPart(colorSchemeDark)
-
     return (
-        <div className={'ag-theme-quartz-dark'} style={{ height: '100%', width: '95%', position: 'absolute' }}>
-            <AgGridReact
-                rowData={rowData}
-                columnDefs={columns}
-				theme={myTheme}
-				onCellEditRequest={onCellEditRequest}
-				readOnlyEdit={true}
-            />
-        </div>
+		<>
+			<div className={'ag-theme-quartz-dark'} style={{ height: '100%', width: '95%', position: 'absolute' }}>
+				<AgGridReact
+					rowData={rowData}
+					columnDefs={columns}
+					onCellEditRequest={onCellEditRequest}
+					readOnlyEdit={true}
+				/>
+			</div>
+		</>
     )
 }

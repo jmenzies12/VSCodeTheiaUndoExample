@@ -114,12 +114,17 @@ export class EntryLogEditorProvider implements vscode.CustomTextEditorProvider {
 		const scriptUri = webview.asWebviewUri(
 			vscode.Uri.joinPath(this.context.extensionUri, 'out', 'table', 'entry-log-app.mjs'),
 		)
+
+		const styleUri = webview.asWebviewUri(
+			vscode.Uri.joinPath(this.context.extensionUri, 'out', 'table', 'entry-log-app.css'),
+		)
 		return `<!DOCTYPE html>
 			<html lang="en">
 			<head>
 				<meta charset="UTF-8">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
 				<title>Panel Title Goes Here</title>
+				<link rel="stylesheet" href="${styleUri}">
 			</head>
 			<body>
 				<div id="root"></div>
