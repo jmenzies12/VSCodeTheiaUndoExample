@@ -52,3 +52,7 @@ function startLanguageClient(context: vscode.ExtensionContext): LanguageClient {
     client.start();
     return client;
 }
+
+export function getLanguageClient(): LanguageClient {
+	return client
+}
