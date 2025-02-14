@@ -26,7 +26,7 @@ export function isEntryNode(object: object | undefined): object is EntryNode {
 export function generateModelFromAST(model: Model, existingDiagram: MREDiagram): MREDiagram {
 	const nodes = model.entries.flatMap((entry) => createDiagramNodes(entry, existingDiagram))
 	return {
-		id: 'arg', //this needs to change in order to load the persistence? or maybe it doesn't
+		id: 'mre', //this needs to change in order to load the persistence? or maybe it doesn't
 		nodes: [...nodes],
 	}
 }

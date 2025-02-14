@@ -1,5 +1,4 @@
 import {
-  DefaultTypes,
   DiagramConfiguration,
   getDefaultMapping,
   GModelElement,
@@ -24,7 +23,7 @@ export class MREDiagramConfiguration implements DiagramConfiguration {
   get shapeTypeHints(): ShapeTypeHint[] {
     return [
       {
-        elementTypeId: DefaultTypes.NODE,
+        elementTypeId: 'node:entry',
         deletable: true,
         reparentable: false,
         repositionable: true,

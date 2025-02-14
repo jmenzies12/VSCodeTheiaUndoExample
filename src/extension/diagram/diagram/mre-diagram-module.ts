@@ -2,12 +2,19 @@ import {
 	ConsoleLogger,
 	ContainerConfiguration,
 	LogLevel,
+	RoundedCornerNodeView,
 	TYPES,
 	configureActionHandler,
 	configureDefaultModelElements,
 	initializeDiagramContainer,
 } from '@eclipse-glsp/client'
 import {
+	configureModelElement,
+	DefaultTypes,
+	editLabelFeature,
+	GLabel,
+	GLabelView,
+	GNode,
 	SetModelAction,
 	UpdateModelAction,
 } from '@eclipse-glsp/sprotty'
@@ -27,6 +34,9 @@ const mreDiagramModule = new ContainerModule((bind: any, unbind: any, isBound: a
 	configureActionHandler(context, ReloadModelAction.KIND, ReloadModelActionHandler)
 	configureActionHandler(context, SetModelAction.KIND, ReloadModelActionHandler)
 	configureActionHandler(context, UpdateModelAction.KIND, ReloadModelActionHandler)
+
+	configureModelElement(context, 'node:entry', GNode, RoundedCornerNodeView)
+	configureModelElement(context, DefaultTypes.LABEL, GLabel, GLabelView, { enable: [editLabelFeature] })
 })
 
 export function initializeMREDiagramContainer(container: Container, ...containerConfiguration: ContainerConfiguration): Container {

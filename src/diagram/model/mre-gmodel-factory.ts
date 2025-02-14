@@ -13,7 +13,7 @@ export class MREGModelFactory implements GModelFactory {
 		this.modelState.index.indexMRE(mre)
 		const graphNodes = [...mre.nodes.flatMap((entry) => this.generateNode(entry))]
 		const newRoot = GGraph.builder() //
-			.id('arg')
+			.id('mre')
 			.addChildren(graphNodes)
 			.build()
 		this.modelState.updateRoot(newRoot)
@@ -22,7 +22,7 @@ export class MREGModelFactory implements GModelFactory {
 	protected generateNode(entry: EntryNode): GNode {
 		const sourceNode = entry.sourceNode
 
-		const builder = GNode.builder().type('entry').id(entry.id).addCssClass('entry-node').layout('vbox').position(entry.position)
+		const builder = GNode.builder().type('node:entry').id(entry.id).layout('vbox').position(entry.position)
 
 		let nodeSize = entry.size
 
@@ -42,6 +42,11 @@ export class MREGModelFactory implements GModelFactory {
 				GLabel.builder()
 					.text(sourceNode?.id.toString() ?? '')
 					.id(`${entry.id}_label`)
+					.build(),
+			).add(
+				GLabel.builder()
+					.text(sourceNode?.description ?? '')
+					.id(`${entry.id}_description_label`)
 					.build(),
 			)
 

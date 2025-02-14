@@ -16,6 +16,7 @@ import { MREModelState } from './model/mre-model-state.js'
 import { MREModelStorage } from './model/mre-model-storage.js'
 import { MREGModelFactory } from './model/mre-gmodel-factory.js'
 import { MREModelIndex } from './model/mre-diagram-model-index.js'
+import { MREApplyLabelEditHandler } from './handler/mre-apply-label-edit-handler.js'
 @injectable()
 export class MREDiagramModule extends DiagramModule {
 	readonly diagramType = 'mre-diagram'
@@ -41,6 +42,7 @@ export class MREDiagramModule extends DiagramModule {
 	}
 
 	protected override configureOperationHandlers(binding: InstanceMultiBinding<OperationHandlerConstructor>): void {
+		binding.add(MREApplyLabelEditHandler)
 		binding.add(CompoundOperationHandler)
 	}
 
