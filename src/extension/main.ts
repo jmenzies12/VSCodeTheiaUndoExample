@@ -3,12 +3,14 @@ import type * as vscode from 'vscode';
 import * as path from 'node:path';
 import { LanguageClient, TransportKind } from 'vscode-languageclient/node.js';
 import { EntryLogEditorProvider } from '../table/entry-log-editor-provider.js';
+import { startDiagram } from './diagram/diagram/diagram-starter.js';
 
 let client: LanguageClient;
 
 // This function is called when the extension is activated.
 export function activate(context: vscode.ExtensionContext): void {
     client = startLanguageClient(context);
+    startDiagram(context)
 
     context.subscriptions.push(EntryLogEditorProvider.register(context, client))
 }

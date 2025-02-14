@@ -18,7 +18,7 @@ import { MREGModelFactory } from './model/mre-gmodel-factory.js'
 import { MREModelIndex } from './model/mre-diagram-model-index.js'
 @injectable()
 export class MREDiagramModule extends DiagramModule {
-	readonly diagramType = 'argument-diagram'
+	readonly diagramType = 'mre-diagram'
 
 	protected bindDiagramConfiguration(): BindingTarget<DiagramConfiguration> {
 		return MREDiagramConfiguration

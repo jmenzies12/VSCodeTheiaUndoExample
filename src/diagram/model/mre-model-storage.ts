@@ -3,7 +3,7 @@ import { inject } from 'inversify'
 import {generateModelFromAST } from './mre-diagram-model.js'
 import { getLanguageClient } from '../../extension/main.js'
 import { MREModelState } from './mre-model-state.js'
-import { TableChange } from '../../language/main.js'
+import { DocumentChange } from '../../language/main.js'
 
 export class MREModelStorage extends AbstractJsonModelStorage {
 	@inject(MREModelState)
@@ -21,15 +21,15 @@ export class MREModelStorage extends AbstractJsonModelStorage {
 		if (this.modelState.sourceUri) {
 			// Otherwise nothing to load...
 			return new Promise((resolve, reject) => {
-				languageClient.sendRequest('modelRequest/Argument', { requestedUri: this.modelState.sourceUri })
-				languageClient.onNotification('node/DocumentChangeOnRequestToArgumentDiagram', async (documentChange: TableChange) => {
+				languageClient.sendRequest('modelRequest', { uri: this.modelState.sourceUri })
+				languageClient.onNotification('node/DocumentChangeOnRequestToMREDiagram', async (documentChange: DocumentChange) => {
 					for (const uri of documentChange.uri) {
 						const index = documentChange.uri.indexOf(uri)
 						if (uri === this.modelState.sourceUri) {
 							const content = documentChange.content[index]
 							if (content != null) {
-								const argument = JSON.parse(content)
-									this.modelState.updateSourceModel(generateModelFromAST(argument, this.modelState.sourceModel))
+								const mre = JSON.parse(content)
+									this.modelState.updateSourceModel(generateModelFromAST(mre, this.modelState.sourceModel))
 									resolve()
 									return
 							}
