@@ -47,22 +47,6 @@ const ctx = await esbuild.context({
     plugins
 });
 
-const entryLogctx = await esbuild.context({
-	entryPoints: ['src/table/entry-log-app.tsx'],
-	outdir: 'out/table',
-	bundle: true,
-	target: 'ES2017',
-	format: 'esm',
-	outExtension: {
-		'.js': '.mjs',
-	},
-	loader: { '.ts': 'ts', '.gif': 'file', '.png': 'file' },
-	external: ['vscode'],
-	sourcemap: !minify,
-	minify,
-	plugins,
-})
-
 const diagramWebviewCtx = await esbuild.context({
 	entryPoints: ['src/webview/main.ts'],
 	outfile: 'out/webview.js',
@@ -86,13 +70,10 @@ const diagramWebviewCtx = await esbuild.context({
 
 if (watch) {
 	await ctx.watch()
-	await entryLogctx.watch()
     await diagramWebviewCtx.watch()
 } else {
 	await ctx.rebuild()
-	await entryLogctx.rebuild()
     await diagramWebviewCtx.rebuild()
 	ctx.dispose()
-	entryLogctx.dispose()
     diagramWebviewCtx.dispose()
 }

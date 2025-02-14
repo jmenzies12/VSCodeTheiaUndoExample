@@ -3,9 +3,7 @@ import { NodeFileSystem } from 'langium/node';
 import { createConnection, ProposedFeatures, NotificationType } from 'vscode-languageserver/node.js';
 import { createMreServices } from './mre-module.js';
 import { DocumentState, URI } from 'langium'
-import { isModel } from './generated/ast.js';
 
-export type TableChange = { type: string; uri: string; content: string }
 export type DocumentChange = { uri: string[]; content: string[]; type?: string }
 
 // Create a connection to the client
@@ -25,15 +23,7 @@ connection.onRequest('modelRequest', async (params) => {
 		entryDocument = shared.workspace.LangiumDocuments.getDocument(uri)
 	}
 	if (entryDocument) {
-		const model = entryDocument.parseResult.value
 		const jsonSerializer = Mre.serializer.JsonSerializer
-		const entryTableChangeNotification = new NotificationType<TableChange>('entryTableChange')
-		connection.sendNotification(entryTableChangeNotification, {
-			type: 'model',
-			uri: entryDocument.uri.toString(true),
-			content: jsonSerializer.serialize(model),
-		})
-
 		connection.sendNotification(new NotificationType<DocumentChange>('node/DocumentChangeOnRequestToMREDiagram'), {
 			uri: [entryDocument.uri.toString(true)],
 			content: [jsonSerializer.serialize(entryDocument.parseResult.value)],
@@ -44,20 +34,8 @@ connection.onRequest('modelRequest', async (params) => {
 
 // Send a notification with the serialized AST after every document change
 
-const entryTableChangeNotification = new NotificationType<TableChange>('entryTableChange')
 const mreSerializer = Mre.serializer.JsonSerializer
 shared.workspace.DocumentBuilder.onBuildPhase(DocumentState.Validated, (documents) => {
-	for (const document of documents) {
-		const model = document.parseResult.value
-		if (isModel(model)) {
-			connection.sendNotification(entryTableChangeNotification, {
-				type: 'model',
-				uri: document.uri.toString(true),
-				content: mreSerializer.serialize(model),
-			})
-		}
-	}
-
 	const mreDocuments = shared.workspace.LangiumDocuments.all.filter((doc) => doc.uri.toString().endsWith('.mre'))
 	const mreUris = mreDocuments.map((doc) => doc.uri.toString(true)).toArray()
 	const mreContent = mreDocuments.map((doc) => mreSerializer.serialize(doc.parseResult.value)).toArray()

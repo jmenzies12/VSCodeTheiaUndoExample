@@ -2,7 +2,14 @@ import { AstReflection, GrammarUtils, IndexManager, LangiumDocument, MaybePromis
 import { CodeActionProvider, LangiumServices } from "langium/lsp";
 import { CodeActionParams, CancellationToken, Command, CodeAction, Range, CodeActionKind } from "vscode-languageserver";
 import { Entry, Model } from "./generated/ast";
-import { CommonEditAction } from "../table/entry-log";
+
+export type CommonEditAction = {
+	actionIdentifier: string
+	objectIdentifier: number
+	newValue: string | number
+	oldValue: string
+	rowObjectIdentifier?: string
+}
 
 export class MreCodeActionProvider implements CodeActionProvider {
     protected readonly reflection: AstReflection

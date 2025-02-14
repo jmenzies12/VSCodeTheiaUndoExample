@@ -23,8 +23,6 @@
 		"@eclipse-glsp/vscode-integration": "2.3.0",
 		"@eclipse-glsp/vscode-integration-webview": "2.3.0",
 		"inversify": "6.1.3",
-        "ag-grid-community": "~32.1.0",
-        "ag-grid-react": "~32.1.0",
         "langium": "~3.3",
         "object-hash": "^3.0.0",
         "react": "^18.3.1",
@@ -84,15 +82,6 @@
             }
         ],
         "customEditors": [
-            {
-                "viewType": "mre.entryLog",
-                "displayName": "Entry Log",
-                "selector": [
-                    {
-                        "filenamePattern": "*.mre"
-                    }
-                ]
-            },
             {
 				"viewType": "mre.glspDiagram",
 				"displayName": "MRE Diagram Editor",
