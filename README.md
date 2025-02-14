@@ -45,8 +45,10 @@ And in the 'Text Editor' it will also show the change:
 
 ![alt text](./images/description-edited-text.png)
 
-Now go back to the 'MRE Diagram Editor' and use the keyboard shorcut for undo ctrl + z.
+Now go back to the 'MRE Diagram Editor' and use the keyboard shorcut for undo ctrl + z
 
-In VSCode this will undo the change in both the 'Text Editor' and the 'MRE Diagram Editor'.
+In VSCode this will undo the change in both the 'Text Editor' and the 'MRE Diagram Editor'
 
 In Theia this will undo nothing.
+
+*Note to explain the undo a little further here. When you undo in VSCode, it triggers the undo in both editors, in this case that meanst that it undone the effect of the code action in the 'Text Editor' i.e. changing the description and then this sends an update to the diagram editor. In Theia, the 'Text Editor' change is not undone, this results in nothing being undone because there was no diagram specific changes to undo.
