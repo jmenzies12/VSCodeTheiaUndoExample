@@ -51,4 +51,4 @@ In VSCode this will undo the change in both the 'Text Editor' and the 'MRE Diagr
 
 In Theia this will undo nothing.
 
-*Note to explain the undo a little further here. When you undo in VSCode, it triggers the undo in both editors, in this case that meanst that it undone the effect of the code action in the 'Text Editor' i.e. changing the description and then this sends an update to the diagram editor. In Theia, the 'Text Editor' change is not undone, this results in nothing being undone because there was no diagram specific changes to undo.
+*Note to explain the undo a little further here. When you undo in VSCode, it triggers the undo in both editors, in this case that means that it undoes the effect of the code action in the 'Text Editor' i.e. changing the description, and then this sends an update to the diagram editor. In Theia, the 'Text Editor' change is not undone, this results in nothing being undone because there was no diagram specific changes to undo.
